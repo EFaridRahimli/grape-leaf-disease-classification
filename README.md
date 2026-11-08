@@ -1,37 +1,36 @@
-# Grape Leaf Disease Classification for Viticulture Optimization
+# Grape Leaf Disease Classification
 
-## Overview
-This project addresses a critical challenge in the wine industry: maintaining vineyard health across large, sparse plantations. Manual inspection of grape leaves is labor-intensive and prone to human error. This repository contains a deep learning pipeline designed to automate the detection of grape diseases using Convolutional Neural Networks (CNNs).
-
-The model classifies grape leaf images into four categories:
-* **Black Rot**
-* **ESCA (Black Measles)**
-* **Leaf Blight**
-* **Healthy**
-
-## Business Problem
-Disease outbreaks can significantly impact crop yield and wine quality. By implementing an automated classification system via plantation cameras, the company can:
-* **Reduce Labor Costs:**
-* **Improve Timeliness:**
-* **Ensure Product Quality:**
-
-## Workflow
-1.  **Exploratory Data Analysis (EDA):**
-2.  **Data Preprocessing & Augmentation:** Implemented `ImageDataGenerator` to simulate real-world conditions increase model robustness.
-3.  **Model Architecture:** :
-    * 3 Convolutional layers with increasing filters (32, 64, 128).
-    * Batch Normalization.
-    * Dropout (0.5).
-    * Softmax output layer for multi-class classification.
-4.  **Experimentation:** Conducted **10 different experiments** varying optimizers (Adam vs. RMSprop), layer depths, and hyperparameters to find the optimal balance between accuracy and training time.
+A CNN that classifies grape-leaf photos as **Black Rot, ESCA (Black Measles), Leaf Blight or Healthy**, so vineyard cameras can flag disease early instead of relying on slow, error-prone manual inspection.
 
 ## Results
-* **Final Accuracy:** 98.4% on the test set.
-* **Optimization:** Identified Experiment #4 as the best-performing architecture for production.
-* **Metrics:**.
+- **98.5% test accuracy** (test loss 0.051).
+- Best architecture: **Experiment 4** (extra convolutional layer), chosen from 10 controlled experiments.
 
-## Requirements
-* TensorFlow / Keras
-* NumPy / Pandas
-* Matplotlib / Seaborn / Plotly
-* Scikit-learn
+| Baseline model | Best model (Exp. 4) |
+|---|---|
+| ![Base model](base_model.png) | ![Best model](best_model.png) |
+
+## Approach
+1. **EDA** of the [Grape Disease dataset](https://www.kaggle.com/datasets/rm1000/grape-disease-dataset-original).
+2. **Augmentation** with `ImageDataGenerator` to simulate real field conditions.
+3. **Custom CNN:** stacked convolution blocks (32 → 64 → 128 filters), batch normalisation, dropout and a softmax head.
+4. **10 experiments** varying depth, batch norm, dropout, optimiser (Adam vs RMSprop), dense-layer size, batch size and augmentation; the best checkpoint is kept by validation accuracy.
+
+## Business value
+- Lower labour cost: no manual leaf-by-leaf inspection.
+- Faster response: fixed cameras report continuously.
+- Protects yield and wine quality.
+
+## Next steps
+Broader data (regions, lighting, seasons), more disease classes, stronger augmentation, and transfer learning (ResNet, EfficientNet).
+
+## Tech stack
+Python · TensorFlow/Keras · NumPy · pandas · Matplotlib · Seaborn · Plotly · scikit-learn
+
+## Run it
+Download the dataset from the Kaggle link above, then:
+```bash
+pip install tensorflow numpy pandas matplotlib seaborn plotly scikit-learn jupyter
+jupyter notebook grape.ipynb
+```
+`Grape Leaf Classification.html` is a rendered copy of the notebook you can open in a browser.
